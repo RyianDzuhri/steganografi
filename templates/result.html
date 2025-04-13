@@ -4,11 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hasil Steganografi LSB</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>Gambar dengan Pesan Tersisipkan</h1>
-    <img src="{{ url_for('static', filename='images/' + image_name) }}" alt="Gambar Tersisipkan Pesan"><br><br>
+    
+    <!-- Menampilkan gambar hasil penyisipan pesan -->
+    <img src="{{ url_for('static', filename='uploads/' + image_name) }}" alt="Gambar Tersisipkan Pesan"><br><br>
 
-    <a href="/">Kembali ke Halaman Utama</a>
+    <!-- Tombol untuk mengunduh gambar -->
+    <a href="{{ url_for('static', filename='uploads/' + image_name) }}" download="{{ image_name }}">
+        <button type="button">Unduh Gambar</button>
+    </a>
+
+    <br><br>
+
+    <!-- Form untuk melihat pesan yang telah disisipkan -->
+    <form action="{{ url_for('decode_direct') }}" method="POST">
+        <input type="hidden" name="image_name" value="{{ image_name }}">
+        <button type="submit">Lihat Pesan</button>
+    </form>
+
+    <br>
+
+    <a href="/" class="back-button">Kembali ke Halaman Utama</a>
 </body>
 </html>

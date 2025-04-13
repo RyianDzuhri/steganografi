@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Steganografi LSB - Upload Gambar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    
     <h1>Steganografi LSB - Sisipkan Pesan ke Gambar</h1>
     <form action="/" method="POST" enctype="multipart/form-data">
         <label for="image">Pilih Gambar:</label>
@@ -18,7 +20,9 @@
     </form>
 
     <hr>
-    <h3>Atau, jika ingin mengekstrak pesan dari gambar yang sudah disisipkan, klik di bawah ini:</h3>
-    <a href="/decode">Decode Pesan dari Gambar</a>
+    <h3>Atau, jika ingin mengekstrak pesan dari gambar yang sudah disisipkan:</h3>
+    <form action="/decode" method="get">
+        <button type="submit">Decode Pesan dari Gambar</button>
+    </form>
 </body>
 </html>

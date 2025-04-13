@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from PIL import Image
 import os
+from io import BytesIO
 
 app = Flask(__name__)
 
@@ -38,9 +39,8 @@ def encode_lsb(image_path, message, output_path):
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     img.save(output_path)
 
-# Fungsi untuk membaca pesan (decode LSB)
-def decode_lsb(image_path):
-    img = Image.open(image_path)
+# Fungsi untuk membaca pesan dari Image object (tanpa simpan file)
+def decode_lsb_from_image(img):
     img = img.convert('RGB')
     pixels = img.load()
 
@@ -59,6 +59,11 @@ def decode_lsb(image_path):
         return message[:end_marker]
     return "❌ Tidak ditemukan pesan tersembunyi."
 
+# Fungsi lama tetap dipertahankan untuk decoding dari path
+def decode_lsb(image_path):
+    img = Image.open(image_path)
+    return decode_lsb_from_image(img)
+
 # Route untuk halaman utama (encode)
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -68,7 +73,7 @@ def index():
 
         if image_file and message:
             input_path = os.path.join('static/images', image_file.filename)
-            output_path = os.path.join('static/images', f"encoded_{image_file.filename}")
+            output_path = os.path.join('static/uploads', f"encoded_{image_file.filename}")
 
             image_file.save(input_path)
             encode_lsb(input_path, message, output_path)
@@ -82,20 +87,26 @@ def index():
 def result(image_name):
     return render_template('result.html', image_name=image_name)
 
-# Route untuk halaman decode
+# Route untuk halaman decode tanpa menyimpan file
 @app.route('/decode', methods=['GET', 'POST'])
 def decode():
     if request.method == 'POST':
         image_file = request.files['image']
         if image_file:
-            input_path = os.path.join('static/images', image_file.filename)
-            image_file.save(input_path)
-
-            # Decode pesan dari gambar
-            message = decode_lsb(input_path)
+            img = Image.open(BytesIO(image_file.read()))  # baca dari memory, tanpa save
+            message = decode_lsb_from_image(img)
             return render_template('decode_result.html', message=message)
 
     return render_template('decode.html')
+
+# Route untuk decode gambar langsung setelah encoding
+@app.route('/decode_direct', methods=['POST'])
+def decode_direct():
+    image_name = request.form['image_name']
+    image_path = os.path.join('static/uploads', image_name)
+
+    message = decode_lsb(image_path)
+    return render_template('decode_result.html', message=message)
 
 if __name__ == "__main__":
     app.run(debug=True)
