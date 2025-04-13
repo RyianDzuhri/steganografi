@@ -10,6 +10,14 @@ body {
   padding: 20px;
 }
 
+p.text-muted {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 1.6em; /* Ukuran font sedikit lebih besar */
+  color: #ffffff !important; /* Warna teks yang lebih lembut */
+  line-height: 1.6;
+}
+
 .card.form-card {
   width: 100%;
   max-width: 480px;
