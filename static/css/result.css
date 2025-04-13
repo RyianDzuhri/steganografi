@@ -1,0 +1,46 @@
+/* Mengatur background halaman dan warna teks */
+body {
+    background: #000000; /* Background hitam */
+    color: #fff; /* Teks putih */
+    font-size: 14px;
+}
+
+/* Mengatur layout container */
+.container {
+    max-width: 600px;
+    margin-top: 50px;
+    padding: 20px;
+}
+
+/* Mengatur card dengan form */
+.card.form-card {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto 30px auto;
+    padding: 20px;
+    background-color: #003366; /* Dark Blue */
+    color: #fff; /* Teks putih */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Mengatur tombol */
+.btn {
+    padding: 6px 16px;
+    font-size: 14px;
+    border-radius: 8px;
+}
+
+/* Mengatur gambar agar responsif */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Mengatur link tombol kembali */
+.back-button {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+}
