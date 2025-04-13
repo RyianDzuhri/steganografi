@@ -94,14 +94,14 @@ def decode():
         image_file = request.files['image']
         if image_file:
             filename = image_file.filename
-            temp_path = os.path.join('static/tmp', filename)
-            os.makedirs('static/tmp', exist_ok=True)
+            temp_path = os.path.join('static/uploads', filename)
+            os.makedirs('static/uploads', exist_ok=True)
             image_file.save(temp_path)
 
             img = Image.open(temp_path)
             message = decode_lsb_from_image(img)
 
-            return render_template('decode_result.html', message=message, stego_image=f'tmp/{filename}')
+            return render_template('decode_result.html', message=message, stego_image=f'uploads/{filename}')
 
     return render_template('decode.html')
 
